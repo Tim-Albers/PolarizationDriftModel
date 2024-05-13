@@ -6,7 +6,7 @@ from netsquid.qubits.operators import Operator
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.linalg import expm
-from qutip import Bloch, Qobj
+# from qutip import Bloch, Qobj
 from netsquid.components.models.qerrormodels import DepolarNoiseModel
 
 
@@ -34,16 +34,16 @@ def simulate_polarization_drift(qubit, sigma_p, steps):
         unitary_op = random_innovation_matrix(sigma_p)
         qapi.operate(qubit, unitary_op)
 
-def plot_on_bloch(qubit1, qubit2):
-    """ Plot a qubit state on the Bloch sphere. """
-    bloch = Bloch()
-    dm1 = qubit1[0].qstate.dm
-    state1 = Qobj(dm1)  # Convert the density matrix to a Qobj for qutip.
-    bloch.add_states(state1)
-    dm2 = qubit2[0].qstate.dm
-    state2 = Qobj(dm2)  # Convert the density matrix to a Qobj for qutip.
-    bloch.add_states(state2)
-    bloch.show()
+# def plot_on_bloch(qubit1, qubit2):
+#     """ Plot a qubit state on the Bloch sphere. """
+#     bloch = Bloch()
+#     dm1 = qubit1[0].qstate.dm
+#     state1 = Qobj(dm1)  # Convert the density matrix to a Qobj for qutip.
+#     bloch.add_states(state1)
+#     dm2 = qubit2[0].qstate.dm
+#     state2 = Qobj(dm2)  # Convert the density matrix to a Qobj for qutip.
+#     bloch.add_states(state2)
+#     bloch.show()
 
 
 # DRIFT MODEL --------------------------------------------------------
