@@ -130,10 +130,13 @@ if __name__ == "__main__":
     num_runs = 1000 # Number of runs for averaging
 
     # Calculate the average fidelities for different channel lengths
+    print("Calculating average fidelities for different channel lengths...")
     fidelities = calculate_average_fidelities_channel_length(num_runs, delta_p, T, v_fiber, L)
 
     # Fit the curve
+    print("Fitting the curve...")
     a = fit_a(L, fidelities)
+    print("Done!")
 
     # Plot the results
     plt.figure()
