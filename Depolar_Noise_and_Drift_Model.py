@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.linalg import expm
 from netsquid.components.models.qerrormodels import DepolarNoiseModel
+from argparse import ArgumentParser
 
 
 # FUNCTIONS --------------------------------------------------------
@@ -111,13 +112,19 @@ def fit_a(L, fidelities):
 # MAIN --------------------------------------------------------
 
 if __name__ == "__main__":
+    parser = ArgumentParser()
+    parser.add_argument("--delta_p", type=float, help="Polarization linewidth (Hz)")
+    args = parser.parse_args()
+    delta_p = args.delta_p if args.delta_p else 1000
     L = np.linspace(0, 500, 1000) # Channel lengths (km)
-    delta_p = 1000 # Polarization linewidth (Hz)
+    #delta_p = 1000 # Polarization linewidth (Hz)
     T = 1e-6 # Time between drift operations (s)
     v_fiber = 2e5 # Speed of light in fiber (km/s)
     num_runs = 1000 # Number of runs for averaging
 
     # Calculate the average fidelities for different channel lengths
+    print("Request recieved")
+    print(f"-------------------------\ndelpta_p = {delta_p} Hz\n-------------------------\n")
     print("Calculating average fidelities for different channel lengths...")
     fidelities = calculate_average_fidelities_channel_length(num_runs, delta_p, T, v_fiber, L)
 
@@ -125,14 +132,18 @@ if __name__ == "__main__":
     print("Fitting the curve...")
     a = fit_a(L, fidelities)
     print("Done!")
+    print("\nResults:")
+    print("-------------------------")
+    print(f"delta_p = {delta_p} Hz")
+    print(f"a = {a}")
 
     # Plot the results
     plt.figure()
     plt.plot(L, fidelities, label="Simulated fidelities")
-    plt.plot(L, F(L, a), label=f"Fitted curve (a = {a:.2f})")
+    plt.plot(L, F(L, a), label=f"Fitted curve")
     plt.xlabel("Channel length (km)")
     plt.ylabel("Average Fidelity")
     plt.legend()
     plt.grid()
-    plt.savefig("fidelity_vs_length.png")
+    plt.savefig(f"fidelity_vs_length(dp={delta_p}).png")
     plt.show()
